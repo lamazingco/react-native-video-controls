@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Video from 'react-native-video';
 import {
   TouchableWithoutFeedback,
@@ -162,7 +162,7 @@ export default class VideoPlayer extends Component {
   }
 
   componentDidUpdate = prevProps => {
-    const {isFullscreen} = this.props;
+    const { isFullscreen } = this.props;
 
     if (prevProps.isFullscreen !== isFullscreen) {
       this.setState({
@@ -271,7 +271,7 @@ export default class VideoPlayer extends Component {
    * Either close the video or go to a
    * new page.
    */
-  _onEnd() {}
+  _onEnd() { }
 
   /**
    * Set the error state to true which then
@@ -280,11 +280,11 @@ export default class VideoPlayer extends Component {
    * @param {object} err  Err obj returned from <Video> component
    */
   _onError(err) {
-    let state = this.state;
-    state.error = true;
-    state.loading = false;
-
-    this.setState(state);
+    this.setState({
+      ...this.state,
+      error: true,
+      loading: false,
+    });
   }
 
   /**
@@ -810,7 +810,9 @@ export default class VideoPlayer extends Component {
        * When panning, update the seekbar position, duh.
        */
       onPanResponderMove: (evt, gestureState) => {
-        const position = this.state.seekerOffset + gestureState.dx;
+        const position =
+          this.state.seekerOffset +
+          (this.props.isLandscape ? gestureState.dy : gestureState.dx);
         this.setSeekerPosition(position);
         let state = this.state;
 
@@ -878,7 +880,9 @@ export default class VideoPlayer extends Component {
        */
       onPanResponderMove: (evt, gestureState) => {
         let state = this.state;
-        const position = this.state.volumeOffset + gestureState.dx;
+        const position =
+          this.state.volumeOffset +
+          (this.props.isLandscape ? gestureState.dy : gestureState.dx);
 
         this.setVolumePosition(position);
         state.volume = this.calculateVolumeFromVolumePosition();
@@ -1005,13 +1009,13 @@ export default class VideoPlayer extends Component {
     return (
       <View style={styles.volume.container}>
         <View
-          style={[styles.volume.fill, {width: this.state.volumeFillWidth}]}
+          style={[styles.volume.fill, { width: this.state.volumeFillWidth }]}
         />
         <View
-          style={[styles.volume.track, {width: this.state.volumeTrackWidth}]}
+          style={[styles.volume.track, { width: this.state.volumeTrackWidth }]}
         />
         <View
-          style={[styles.volume.handle, {left: this.state.volumePosition}]}
+          style={[styles.volume.handle, { left: this.state.volumePosition }]}
           {...this.player.volumePanResponder.panHandlers}>
           <Image
             style={styles.volume.icon}
@@ -1103,12 +1107,12 @@ export default class VideoPlayer extends Component {
           />
         </View>
         <View
-          style={[styles.seekbar.handle, {left: this.state.seekerPosition}]}
+          style={[styles.seekbar.handle, { left: this.state.seekerPosition }]}
           pointerEvents={'none'}>
           <View
             style={[
               styles.seekbar.circle,
-              {backgroundColor: this.props.seekColor || '#FFF'},
+              { backgroundColor: this.props.seekColor || '#FFF' },
             ]}
             pointerEvents={'none'}
           />
