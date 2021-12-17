@@ -162,12 +162,19 @@ export default class VideoPlayer extends Component {
   }
 
   componentDidUpdate = prevProps => {
-    const { isFullscreen } = this.props;
+    const { isFullscreen, paused } = this.props;
+    const newState = {}
 
     if (prevProps.isFullscreen !== isFullscreen) {
-      this.setState({
-        isFullscreen,
-      });
+      newState.isFullscreen = isFullscreen
+    }
+
+    if (prevProps.paused !== paused) {
+      newState.paused = paused
+    }
+
+    if (!!Object.keys(newState).length) {
+      this.setState(newState)
     }
   };
   /**
@@ -740,11 +747,11 @@ export default class VideoPlayer extends Component {
    * we have to handle possible props changes to state changes
    */
   UNSAFE_componentWillReceiveProps(nextProps) {
-    if (this.state.paused !== nextProps.paused) {
-      this.setState({
-        paused: nextProps.paused,
-      });
-    }
+    // if (this.state.paused !== nextProps.paused) {
+    //   this.setState({
+    //     paused: nextProps.paused,
+    //   });
+    // }
 
     if (this.styles.videoStyle !== nextProps.videoStyle) {
       this.styles.videoStyle = nextProps.videoStyle;
