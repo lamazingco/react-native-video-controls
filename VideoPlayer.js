@@ -1099,7 +1099,7 @@ export default class VideoPlayer extends Component {
             style={[
               styles.seekbar.fill,
               {
-                width: this.state.seekerFillWidth,
+                width: this.state.seekerFillWidth + 6,
                 backgroundColor: this.props.seekColor || '#FFF',
               },
             ]}
