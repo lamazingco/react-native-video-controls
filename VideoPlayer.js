@@ -792,7 +792,8 @@ export default class VideoPlayer extends Component {
     this.player.seekPanResponder = PanResponder.create({
       // Ask to be the responder.
       onStartShouldSetPanResponder: (evt, gestureState) => true,
-      onMoveShouldSetPanResponder: (evt, gestureState) => true,
+      onMoveShouldSetPanResponder: (evt, gestureState) => false,
+      onPanResponderTerminationRequest: () => false,
 
       /**
        * When we start the pan tell the machine that we're
